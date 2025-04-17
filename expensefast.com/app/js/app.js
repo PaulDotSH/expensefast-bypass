@@ -41890,3 +41890,31 @@
 , , function(e, t) {}
 , , function(e, t) {}
 ]);
+
+setTimeout(function add_download_button() {
+    const titleForm = document.querySelector('div.uk-margin.title-form');
+    
+    if (titleForm) {
+      const downloadButton = document.createElement('button');
+      downloadButton.innerText = 'Download';
+      downloadButton.style.cssText = 'padding: 10px 15px; background-color:rgb(0, 169, 6); color: white; border: none; border-radius: 4px; cursor: pointer; z-index: 9999;';
+      downloadButton.onclick = function() {
+        console.log('Download button clicked');
+        
+        // Deselect all active objects on the canvas before downloading
+        if (canvas && typeof canvas.discardActiveObject === 'function') {
+          canvas.discardActiveObject().renderAll();
+        }
+        
+        var canvasData = canvas.toDataURL("image/png");
+        var a = document.createElement("a");
+        a.href = canvasData;
+        a.download = "canvas.png";
+        a.click();
+    };
+      titleForm.append(downloadButton);
+      console.log('Download button added to canvas-container');
+    } else {
+      console.log('Canvas container not found');
+    }
+  }, 500);
